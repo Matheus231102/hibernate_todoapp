@@ -3,7 +3,9 @@ package github.matheus.todo.model;
 
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Entity(name = "usuario")
 public class Usuario {
@@ -11,7 +13,7 @@ public class Usuario {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID_USUARIO") // verificar código;
-    private Long id;
+    private long id;
 
     @Column(name = "NOME", nullable = false)
     private String nome;
@@ -25,7 +27,12 @@ public class Usuario {
     @Column(name = "DATA_INSERCAO_USUARIO")
     private Date dataInsercaoUsuario;
 
-    public Usuario() {}
+    @OneToMany(mappedBy = "usuario")
+    private List<Tarefa> tarefas = new ArrayList<>();
+
+    public Usuario() {
+
+    }
 
     public Usuario(String nome, String email, String senha, Date dataInsercaoUsuario) {
         this.nome = nome;
