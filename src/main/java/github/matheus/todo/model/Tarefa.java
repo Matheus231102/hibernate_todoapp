@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import java.util.Date;
 
 @Entity
+@Table(name = "TB_TAREFAS")
 public class Tarefa {
 
     @Id
@@ -25,7 +26,7 @@ public class Tarefa {
     private String prioridade;
 
     @ManyToOne
-    @JoinColumn(name = "FK_ID_USUARIO")
+    @JoinColumn(name = "id")
     private Usuario usuario;
 
     public Tarefa() {

@@ -7,7 +7,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-@Entity(name = "usuario")
+@Entity()
+@Table(name = "TB_USUARIOS")
 public class Usuario {
 
     @Id

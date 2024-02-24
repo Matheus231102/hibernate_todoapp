@@ -1,5 +1,7 @@
-package github.matheus.todo.model;
+package github.matheus.todo.teste;
 
+import github.matheus.todo.model.Tarefa;
+import github.matheus.todo.model.Usuario;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.NoResultException;
