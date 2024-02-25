@@ -22,7 +22,7 @@ public class Usuario {
     @Column(name = "EMAIL", nullable = false, unique = true)
     private String email;
 
-    @Column(name = "SENHA", nullable = false)
+    @Column(name = "SENHA")
     private String senha;
 
     @Column(name = "DATA_INSERCAO_USUARIO")
@@ -72,6 +72,14 @@ public class Usuario {
 
     public void setSenha(String senha) {
         this.senha = senha;
+    }
+
+    public List<Tarefa> getTarefas() {
+        return tarefas;
+    }
+
+    public void setTarefas(List<Tarefa> tarefas) {
+        this.tarefas = tarefas;
     }
 
     public Date getDataInsercaoUsuario() {

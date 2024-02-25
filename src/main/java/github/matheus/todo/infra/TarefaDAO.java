@@ -46,4 +46,8 @@ public class TarefaDAO<Tarefa> {
         return this.abrirT().incluir(tarefa).fecharT();
     }
 
+    public void fechar() {
+        em.close();
+    }
+
 }

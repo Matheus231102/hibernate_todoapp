@@ -1,5 +1,6 @@
 package github.matheus.todo.model;
 
+import github.matheus.todo.enums.EnumPrioridadeTarefa;
 import jakarta.persistence.*;
 
 import java.util.Date;
@@ -23,17 +24,19 @@ public class Tarefa {
     private Date dataVencimento;
 
     @Column(name = "PRIORIDADE")
-    private String prioridade;
+
+    @Enumerated(EnumType.STRING)
+    private EnumPrioridadeTarefa prioridade;
 
     @ManyToOne
-    @JoinColumn(name = "id")
+    @JoinColumn(name = "ID_USUARIO")
     private Usuario usuario;
 
     public Tarefa() {
 
     }
 
-    public Tarefa(String titulo, String descricao, Date dataVencimento, String prioridade, Usuario usuario) {
+    public Tarefa(String titulo, String descricao, Date dataVencimento, EnumPrioridadeTarefa prioridade, Usuario usuario) {
         this.titulo = titulo;
         this.descricao = descricao;
         this.dataVencimento = dataVencimento;
@@ -73,11 +76,11 @@ public class Tarefa {
         this.dataVencimento = dataVencimento;
     }
 
-    public String getPrioridade() {
+    public EnumPrioridadeTarefa getPrioridade() {
         return prioridade;
     }
 
-    public void setPrioridade(String prioridade) {
+    public void setPrioridade(EnumPrioridadeTarefa prioridade) {
         this.prioridade = prioridade;
     }
 
