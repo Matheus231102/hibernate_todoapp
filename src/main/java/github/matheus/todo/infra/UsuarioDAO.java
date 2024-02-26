@@ -1,13 +1,10 @@
 package github.matheus.todo.infra;
 
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityManagerFactory;
-import jakarta.persistence.Persistence;
-import jakarta.persistence.TypedQuery;
+import jakarta.persistence.*;
 
 import java.util.List;
 
-public class UsuarioDAO<Usuario> {
+public class UsuarioDAO<Usuario>{
 
     private static EntityManagerFactory emf;
     private EntityManager em;
@@ -53,7 +50,7 @@ public class UsuarioDAO<Usuario> {
         return this.abrirT().incluir(entidade).fecharT();
     }
 
-    public List<Usuario> obterTodos(int quantidade, int deslocamento) {
+    public List<Usuario> obterTodosUsuarios(int quantidade, int deslocamento) {
         if (classe == null) {
             throw new UnsupportedOperationException("A classe está nula!");
         }
@@ -65,12 +62,26 @@ public class UsuarioDAO<Usuario> {
        return query.getResultList();
     }
 
-    public List<Usuario> obterTodos() {
-        return obterTodos(1000, 0);
+    public List<Usuario> obterTodosUsuarios() {
+        return obterTodosUsuarios(1000, 0);
     }
 
     public void fechar() {
         em.close();
     }
+
+    public Usuario buscarUsuarioPorID(int idUsuario) {
+        try {
+            String jpql = "SELECT U FROM Usuario U WHERE U.id = :id";
+
+            TypedQuery<Usuario> query = em.createQuery(jpql, classe);
+            query.setParameter("id", idUsuario);
+
+            return query.getSingleResult();
+        } catch (NoResultException e) {
+            return null;
+        }
+    };
+
 
 }

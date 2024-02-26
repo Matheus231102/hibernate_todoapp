@@ -13,7 +13,7 @@ public class Usuario {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "ID_USUARIO") // verificar código;
+    @Column(name = "ID_USUARIO")
     private long id;
 
     @Column(name = "NOME", nullable = false)
@@ -28,7 +28,7 @@ public class Usuario {
     @Column(name = "DATA_INSERCAO_USUARIO")
     private Date dataInsercaoUsuario;
 
-    @OneToMany(mappedBy = "usuario")
+    @OneToMany(mappedBy = "usuario", fetch = FetchType.LAZY)
     private List<Tarefa> tarefas = new ArrayList<>();
 
     public Usuario() {
