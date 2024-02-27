@@ -27,10 +27,6 @@ public class UsuarioDAO<Usuario>{
         em = emf.createEntityManager();
     }
 
-    public UsuarioDAO<Usuario> teste() {
-        return this;
-    }
-
     public UsuarioDAO<Usuario> abrirT() {
         em.getTransaction().begin();
         return this;
@@ -50,9 +46,13 @@ public class UsuarioDAO<Usuario>{
         return this.abrirT().incluir(entidade).fecharT();
     }
 
+    public void fechar() {
+        em.close();
+    }
+
     public List<Usuario> obterTodosUsuarios(int quantidade, int deslocamento) {
         if (classe == null) {
-            throw new UnsupportedOperationException("A classe está nula!");
+            throw new UnsupportedOperationException("a classe está nula, por isso não é possível manter a operação");
         }
 
         String jpql = "select e from " + classe.getSimpleName() + " e";
@@ -66,11 +66,7 @@ public class UsuarioDAO<Usuario>{
         return obterTodosUsuarios(1000, 0);
     }
 
-    public void fechar() {
-        em.close();
-    }
-
-    public Usuario buscarUsuarioPorID(int idUsuario) {
+    public Usuario buscarUsuarioPorID(int idUsuario) throws NoResultException {
         try {
             String jpql = "SELECT U FROM Usuario U WHERE U.id = :id";
 
@@ -79,6 +75,8 @@ public class UsuarioDAO<Usuario>{
 
             return query.getSingleResult();
         } catch (NoResultException e) {
+            System.out.println(e.getMessage());
+            e.printStackTrace();
             return null;
         }
     }
