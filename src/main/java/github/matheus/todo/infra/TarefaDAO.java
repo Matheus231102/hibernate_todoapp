@@ -1,9 +1,15 @@
 package github.matheus.todo.infra;
 
 import github.matheus.todo.model.Tarefa;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityManagerFactory;
-import jakarta.persistence.Persistence;
+import github.matheus.todo.model.Usuario;
+import jakarta.persistence.*;
+import org.hibernate.boot.jaxb.internal.stax.BufferedXMLEventReader;
+
+import java.lang.reflect.Type;
+import java.security.InvalidParameterException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 public class TarefaDAO<Tarefa> {
     private static EntityManagerFactory emf;
@@ -48,6 +54,35 @@ public class TarefaDAO<Tarefa> {
 
     public void fechar() {
         em.close();
+    }
+
+
+    public Tarefa buscarTarefaPorID(int idTarefa) {
+        try {
+            String jpql = "SELECT T FROM Tarefa T WHERE T.id = :id";
+
+            TypedQuery<Tarefa> query = em.createQuery(jpql, classe);
+            query.setParameter("id", idTarefa);
+
+            return query.getSingleResult();
+        } catch (NoResultException e) {
+            return null;
+        }
+    }
+
+
+    public List<Tarefa> buscarTarefasUsuario(Usuario usuario) {
+        try {
+            String jpql = "SELECT T FROM Tarefa T WHERE T.usuario = :usuario";
+            TypedQuery<Tarefa> query = em.createQuery(jpql, classe);
+
+            query.setParameter("usuario", usuario);
+
+            return query.getResultList();
+        } catch (Exception e) {
+            System.err.println("Erro inesperado: " + e.getMessage());
+            return new ArrayList<>();
+        }
     }
 
 }

@@ -36,12 +36,12 @@ public class Tarefa {
 
     }
 
-    public Tarefa(String titulo, String descricao, Date dataVencimento, EnumPrioridadeTarefa prioridade, Usuario usuario) {
+    public Tarefa(String titulo, String descricao, Date dataVencimento, EnumPrioridadeTarefa prioridade) {
         this.titulo = titulo;
         this.descricao = descricao;
         this.dataVencimento = dataVencimento;
         this.prioridade = prioridade;
-        this.usuario = usuario;
+        this.usuario = null;
     }
 
     public long getId() {

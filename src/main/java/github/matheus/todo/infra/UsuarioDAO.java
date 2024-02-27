@@ -81,7 +81,7 @@ public class UsuarioDAO<Usuario>{
         } catch (NoResultException e) {
             return null;
         }
-    };
+    }
 
 
 }
