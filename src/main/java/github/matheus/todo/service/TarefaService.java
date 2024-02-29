@@ -21,6 +21,10 @@ public class TarefaService {
 
     public TarefaService() {}
 
+    public static Tarefa buscarTarefaPorID(int idTarefa) {
+        return (Tarefa) tarefaDAO.buscarTarefaPorID(idTarefa);
+    }
+
     public static List<Tarefa> buscarTarefasUsuarioPorID(int idUsuario) throws Exception {
         Usuario usuario = null;
         try {
