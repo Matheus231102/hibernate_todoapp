@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 
 import java.util.List;
 
-public class UsuarioDAO<Usuario>{
+public class UsuarioDAO<Usuario> {
 
     private static EntityManagerFactory emf;
     private EntityManager em;
@@ -27,59 +27,95 @@ public class UsuarioDAO<Usuario>{
         em = emf.createEntityManager();
     }
 
-    public UsuarioDAO<Usuario> abrirT() {
+    /*Métodos privados*/
+    private UsuarioDAO<Usuario> abrirT() {
         em.getTransaction().begin();
         return this;
     }
 
-    public UsuarioDAO<Usuario> fecharT() {
+    private UsuarioDAO<Usuario> fecharT() {
         em.getTransaction().commit();
         return this;
     }
 
-    public UsuarioDAO<Usuario> incluir(Usuario entidade) {
+    private void fechar() {
+        em.close();
+    }
+
+    private UsuarioDAO<Usuario> incluirT(Usuario entidade) {
         em.persist(entidade);
         return this;
     }
 
-    public UsuarioDAO<Usuario> incluirAtomico(Usuario entidade) {
-        return this.abrirT().incluir(entidade).fecharT();
+    private UsuarioDAO<Usuario> atualizarT(Usuario usuario) {
+        em.merge(usuario);
+        return this;
     }
 
-    public void fechar() {
-        em.close();
+    private UsuarioDAO<Usuario> removerT(Usuario usuario) {
+        em.remove(usuario);
+        return this;
     }
 
-    public List<Usuario> obterTodosUsuarios(int quantidade, int deslocamento) {
+
+    /*Métodos públicos*/
+    public Usuario buscarPorId(int idUsuario) {
+        try {
+            String jpql = "SELECT U FROM Usuario U WHERE U.id = :id";
+
+            TypedQuery<Usuario> query = em.createQuery(jpql, classe);
+            query.setParameter("id", idUsuario);
+            return query.getSingleResult();
+
+        } catch (NoResultException e) {
+            System.out.println("Usuário com o ID " + idUsuario + " não encontrado.");
+            return null;
+
+        } catch (IllegalArgumentException e) {
+            System.out.println("Argumento inválido");
+            return null;
+
+        }
+    }
+
+    public UsuarioDAO<Usuario> atualizar(Usuario usuario) {
+        EntityTransaction transaction = em.getTransaction();
+        transaction.begin();
+        try {
+            em.merge(usuario);
+            transaction.commit();
+        } catch (Exception e) {
+            if (transaction.isActive()) {
+                transaction.rollback();
+            }
+            System.out.println("Erro ao atualizar o usuário: " + e.getMessage());
+        }
+        return this;
+    }
+
+    public UsuarioDAO<Usuario> incluir(Usuario usuario) {
+        return abrirT().incluirT(usuario).fecharT();
+    }
+
+    public UsuarioDAO<Usuario> remover(Usuario usuario) {
+        return abrirT().removerT(usuario).fecharT();
+    }
+
+
+    public List<Usuario> obterTodos(int quantidade, int deslocamento) {
         if (classe == null) {
             throw new UnsupportedOperationException("a classe está nula, por isso não é possível manter a operação");
         }
 
-        String jpql = "select e from " + classe.getSimpleName() + " e";
+        String jpql = "select U from Usuario U";
         TypedQuery<Usuario> query = em.createQuery(jpql, classe);
         query.setMaxResults(quantidade);
         query.setFirstResult(deslocamento);
        return query.getResultList();
     }
 
-    public List<Usuario> obterTodosUsuarios() {
-        return obterTodosUsuarios(1000, 0);
+    public List<Usuario> obterTodos() {
+        return obterTodos(1000, 0);
     }
-
-    public Usuario buscarUsuarioPorID(int idUsuario) throws NoResultException {
-        try {
-            String jpql = "SELECT U FROM Usuario U WHERE U.id = :id";
-
-            TypedQuery<Usuario> query = em.createQuery(jpql, classe);
-            query.setParameter("id", idUsuario);
-
-            return query.getSingleResult();
-        } catch (NoResultException e) {
-            System.out.println(e.getMessage());
-            e.printStackTrace();
-            return null;
-        }
-    }
-
 
 }

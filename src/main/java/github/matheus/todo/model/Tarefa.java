@@ -3,7 +3,7 @@ package github.matheus.todo.model;
 import github.matheus.todo.enums.EnumPrioridadeTarefa;
 import jakarta.persistence.*;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "TB_TAREFAS")
@@ -20,8 +20,9 @@ public class Tarefa {
     @Column(name = "DESCRICAO")
     private String descricao;
 
+    @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "DATA_VENCIMENTO")
-    private Date dataVencimento;
+    private LocalDateTime dataVencimento;
 
     @Column(name = "PRIORIDADE")
 
@@ -36,7 +37,7 @@ public class Tarefa {
 
     }
 
-    public Tarefa(String titulo, String descricao, Date dataVencimento, EnumPrioridadeTarefa prioridade) {
+    public Tarefa(String titulo, String descricao, LocalDateTime dataVencimento, EnumPrioridadeTarefa prioridade) {
         this.titulo = titulo;
         this.descricao = descricao;
         this.dataVencimento = dataVencimento;
@@ -46,10 +47,6 @@ public class Tarefa {
 
     public long getId() {
         return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
     }
 
     public String getTitulo() {
@@ -68,11 +65,11 @@ public class Tarefa {
         this.descricao = descricao;
     }
 
-    public Date getDataVencimento() {
+    public LocalDateTime getDataVencimento() {
         return dataVencimento;
     }
 
-    public void setDataVencimento(Date dataVencimento) {
+    public void setDataVencimento(LocalDateTime dataVencimento) {
         this.dataVencimento = dataVencimento;
     }
 

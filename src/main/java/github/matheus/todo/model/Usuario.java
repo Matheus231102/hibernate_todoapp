@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-@Entity()
+@Entity
 @Table(name = "TB_USUARIOS")
 public class Usuario {
 
@@ -25,6 +25,7 @@ public class Usuario {
     @Column(name = "SENHA")
     private String senha;
 
+    @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "DATA_INSERCAO_USUARIO")
     private Date dataInsercaoUsuario;
 
@@ -89,5 +90,11 @@ public class Usuario {
     public void setDataInsercaoUsuario(Date dataInsercaoUsuario) {
         this.dataInsercaoUsuario = dataInsercaoUsuario;
     }
+
+    @PrePersist
+    protected void onCreate() {
+        setDataInsercaoUsuario(new Date());
+    }
+
 }
 
