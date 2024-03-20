@@ -6,14 +6,14 @@
              version="2.2">
     <persistence-unit name="defaultTODOAPPpersistence">
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
-        <class>github.matheus.todo.model.Usuario</class>
+        <class>github.matheus.todo.model.entities.Usuario</class>
 
 
         <properties>
             <property name="jakarta.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver"/>
             <property name="jakarta.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/hibernate_todoapp"/>
             <property name="jakarta.persistence.jdbc.user" value="root"/>
-            <property name="jakarta.persistence.jdbc.password" value="root"/>
+            <property name="jakarta.persistence.jdbc.password" value="231102"/>
 
             <property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect"/>
             <property name="hibernate.show_sql" value="true"/>
